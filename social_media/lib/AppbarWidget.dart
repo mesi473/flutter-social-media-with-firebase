@@ -28,7 +28,8 @@ class AppbarWidget extends StatelessWidget {
           width: 5,
         ),
         CircleAvatar(
-            child: InkWell(
+          backgroundImage: user.photoURL!=null?NetworkImage(user.photoURL!):null,
+          child: InkWell(
           onTap: () {
             showMenu(
                 elevation: 8.0,
@@ -49,11 +50,6 @@ class AppbarWidget extends StatelessWidget {
                           child: Text('logout')))
                 ]);
           },
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
-              child: Image(
-                image: NetworkImage(user.photoURL!),
-              )),
         )),
       ],
     );

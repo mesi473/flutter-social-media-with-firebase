@@ -32,6 +32,7 @@ dependencies:
   http: ^0.13.3
   firebase_core: 
   firebase_auth: 
+  firebase_database:
   google_sign_in: 
   provider:
 

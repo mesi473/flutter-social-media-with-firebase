@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
       // ),
       body: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
-        // initialData: initialData,
+        //initialData: initialData,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(

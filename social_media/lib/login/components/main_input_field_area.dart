@@ -2,26 +2,25 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:social_media/HomePage.dart';
 
 class MainInputFieldArea extends StatefulWidget {
   const MainInputFieldArea({
     Key? key,
-    required GlobalKey<FormState> formKey,
-  })  : _formKey = formKey,
-        super(key: key);
-
-  final GlobalKey<FormState> _formKey;
+  }) : super(key: key);
 
   @override
   _MainInputFieldAreaState createState() => _MainInputFieldAreaState();
 }
 
 class _MainInputFieldAreaState extends State<MainInputFieldArea> {
-  late String _email,password;
-  final auth= FirebaseAuth.instance;
+  late String _email, _password;
+  bool show = false;
+  final _formKey = GlobalKey<FormState>();
+  final auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
-    
     return Container(
       margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
       width: MediaQuery.of(context).size.width,
@@ -44,7 +43,7 @@ class _MainInputFieldAreaState extends State<MainInputFieldArea> {
                 fontFamily: 'LogoFont'),
           ),
           Form(
-            key: widget._formKey,
+            key: _formKey,
             child: Column(
               children: <Widget>[
                 Padding(
@@ -59,6 +58,11 @@ class _MainInputFieldAreaState extends State<MainInputFieldArea> {
                             child: Padding(
                           padding: EdgeInsets.only(left: 15, right: 15, top: 5),
                           child: TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                _email = value.trim();
+                              });
+                            },
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'email is required';
@@ -97,6 +101,11 @@ class _MainInputFieldAreaState extends State<MainInputFieldArea> {
                             padding:
                                 EdgeInsets.only(left: 15, right: 15, top: 5),
                             child: TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  _password = value.trim();
+                                });
+                              },
                               obscureText: true,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -129,9 +138,12 @@ class _MainInputFieldAreaState extends State<MainInputFieldArea> {
                           child: IconButton(
                               onPressed: () {
                                 // _controller.clear();
+                                setState(() {
+                                  show = !show;
+                                });
                               },
                               icon: Icon(
-                                Icons.visibility_off,
+                                show ? Icons.visibility : Icons.visibility_off,
                                 color: Colors.blueAccent,
                               )))
                     ],
@@ -148,13 +160,16 @@ class _MainInputFieldAreaState extends State<MainInputFieldArea> {
                       ),
                       child: InkWell(
                         radius: 20,
-                        onTap: () {
-                          // if (_formKey.currentState!.validate()) {
-                          //   ScaffoldMessenger.of(context).showSnackBar(
-                          //     const SnackBar(content: Text('Processing Data')),
-                          //   );
-                          // }
-                          Navigator.pushNamed(context, '/dashboardhome');
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   const SnackBar(content: Text('Processing Data')),
+                            // );
+                            await auth.signInWithEmailAndPassword(email: _email, password: _password);
+                            Navigator.pushNamed(context, '/dashboardhome');
+                          }
+
+                          
                         },
                         child: Center(
                           child: Text(
@@ -170,7 +185,6 @@ class _MainInputFieldAreaState extends State<MainInputFieldArea> {
               ],
             ),
           ),
-          
         ],
       ),
     );

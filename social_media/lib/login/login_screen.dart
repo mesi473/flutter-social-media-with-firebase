@@ -11,7 +11,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Stack(
                     children: [
                       CompanyName(),
-                      MainInputFieldArea(formKey: _formKey),
+                      MainInputFieldArea(),
                     ],
                   ),
                 ),

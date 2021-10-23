@@ -29,7 +29,7 @@ class DrawerWidget extends StatelessWidget {
                   child: Column(
                     children: [
                       CircleAvatar(
-                        backgroundImage: NetworkImage(user.photoURL!),
+                        backgroundImage: user.photoURL!=null?NetworkImage(user.photoURL!):null,
                         radius: 50,
                       ),
                       Text(
